@@ -13,6 +13,7 @@ const posts = (await getCollection("blog")).sort((a, b) => {
 
 function formatDate(date: Date) {
 	return date.toLocaleDateString("en-us", {
+		timeZone: "UTC",
 		year: "numeric",
 		month: "short",
 		day: "numeric",

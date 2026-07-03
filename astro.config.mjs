@@ -9,6 +9,9 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
 	site: "https://tomasperez.dev",
 	integrations: [mdx(), sitemap()],
+	markdown: {
+		shikiConfig: { theme: "one-light" },
+	},
 	vite: {
 		plugins: [tailwindcss()],
 	},
