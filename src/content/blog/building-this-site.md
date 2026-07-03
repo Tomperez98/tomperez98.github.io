@@ -2,7 +2,6 @@
 title: "How I Built This Site"
 description: "A walkthrough of the design and stack behind my personal website — Astro, Tailwind CSS, and a CI/CD pipeline that deploys on every release."
 pubDate: "2025-07-02"
-updatedDate: "2025-07-02"
 ---
 
 This site lives at [tomperez98.github.io](https://github.com/Tomperez98/tomperez98.github.io). It's a static personal page with a résumé-like home page and a blog. Here's how it's designed and built.
