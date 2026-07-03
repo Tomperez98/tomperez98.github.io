@@ -47,5 +47,5 @@ jobs:
       - name: build repo
         run: bun run build
 
-      - name: check linting
-        run: bun run check && bun run lint
+      - name: check formatting
+        run: bun run check

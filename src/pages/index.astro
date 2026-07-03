@@ -1,0 +1,263 @@
+---
+import { z } from "zod";
+import { parse as parseYaml } from "yaml";
+import BaseHead from "../components/BaseHead.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+
+const CV_URL = "https://raw.githubusercontent.com/Tomperez98/cv/main/en_CV.yaml";
+const CV_TOKEN = import.meta.env.CV_REPO_TOKEN;
+if (!CV_TOKEN) throw new Error("Missing required env: CV_REPO_TOKEN");
+
+const cvSchema = z.object({
+	cv: z.object({
+		name: z.string(),
+		headline: z.string(),
+		email: z.email(),
+		phone: z.array(z.string()).optional(),
+		social_networks: z
+			.array(
+				z.object({
+					network: z.string(),
+					username: z.string(),
+				}),
+			)
+			.optional(),
+		sections: z.object({
+			summary: z.array(z.string()).optional(),
+			skills: z
+				.array(
+					z.object({
+						label: z.string(),
+						details: z.string(),
+					}),
+				)
+				.optional(),
+			experience: z
+				.array(
+					z.object({
+						company: z.string(),
+						position: z.string(),
+						start_date: z.string(),
+						end_date: z.string(),
+						location: z.string(),
+						summary: z.string(),
+						highlights: z.array(z.string()).optional(),
+					}),
+				)
+				.optional(),
+			education: z
+				.array(
+					z.object({
+						institution: z.string(),
+						area: z.string(),
+						degree: z.string(),
+						location: z.string(),
+					}),
+				)
+				.optional(),
+		}),
+	}),
+});
+
+const fmtDate = (d: string) => {
+	if (d === "present") return "Present";
+	const parts = d.split("-");
+	const months = [
+		"Jan",
+		"Feb",
+		"Mar",
+		"Apr",
+		"May",
+		"Jun",
+		"Jul",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec",
+	];
+	return `${months[+parts[1] - 1]} ${parts[0]}`;
+};
+
+const socialUrl = (network: string, username: string) => {
+	switch (network) {
+		case "LinkedIn":
+			return `https://www.linkedin.com/in/${username}`;
+		case "GitHub":
+			return `https://github.com/${username}`;
+		default:
+			return "";
+	}
+};
+
+const res = await fetch(CV_URL, {
+	headers: { Authorization: `Bearer ${CV_TOKEN}` },
+});
+if (!res.ok) throw new Error(`Failed to fetch CV: HTTP ${res.status}`);
+const raw = cvSchema.parse(parseYaml(await res.text()));
+
+const cv = {
+	name: raw.cv.name,
+	headline: raw.cv.headline,
+	email: raw.cv.email,
+	social: (raw.cv.social_networks ?? []).map((s) => ({
+		network: s.network,
+		username: s.username,
+		url: socialUrl(s.network, s.username),
+	})),
+	summary: raw.cv.sections.summary ?? [],
+	skills: raw.cv.sections.skills ?? [],
+	experience: (raw.cv.sections.experience ?? []).map((e) => ({
+		company: e.company,
+		position: e.position,
+		start: fmtDate(e.start_date),
+		end: fmtDate(e.end_date),
+		location: e.location,
+		summary: e.summary.trim(),
+		highlights: (e.highlights ?? []).map((h) => h.trim()),
+	})),
+	education: raw.cv.sections.education ?? [],
+};
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body class="font-sans">
+		<Header />
+		<main class="max-w-3xl mx-auto px-4 py-16 space-y-20">
+			<!-- ── Hero ── -->
+			<section class="reveal space-y-4" style="animation-delay: 0ms">
+				<h1 class="text-4xl sm:text-5xl font-bold text-secondary-900 tracking-tight">
+					{cv.name}
+				</h1>
+				<p class="text-lg text-secondary-500 font-medium max-w-xl">
+					{cv.headline}
+				</p>
+				<div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-secondary-400">
+					<a href={`mailto:${cv.email}`} class="hover:text-primary-600 transition-colors">
+						{cv.email}
+					</a>
+					{
+						cv.social.map((s) => (
+							<Fragment>
+								<span aria-hidden="true">·</span>
+								<a
+									href={s.url}
+									target="_blank"
+									rel="noopener"
+									class="hover:text-primary-600 transition-colors"
+								>
+									{s.network}
+								</a>
+							</Fragment>
+						))
+					}
+				</div>
+			</section>
+
+			<!-- ── About ── -->
+			<section class="reveal space-y-4" style="animation-delay: 150ms">
+				<h2
+					class="flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-secondary-400"
+				>
+					<span class="font-mono text-xs text-primary-500">01.</span>
+					About
+					<span class="flex-1 h-px bg-secondary-200 ml-2"></span>
+				</h2>
+				<div class="prose prose-secondary max-w-none text-secondary-700 leading-relaxed">
+					{cv.summary.map((p) => <p class="text-base/relaxed">{p}</p>)}
+				</div>
+			</section>
+
+			<!-- ── Skills ── -->
+			<section class="reveal space-y-4" style="animation-delay: 300ms">
+				<h2
+					class="flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-secondary-400"
+				>
+					<span class="font-mono text-xs text-primary-500">02.</span>
+					Skills
+					<span class="flex-1 h-px bg-secondary-200 ml-2"></span>
+				</h2>
+				<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+					{
+						cv.skills.map((s) => (
+							<div class="bg-secondary-100 rounded-lg p-3.5 border border-secondary-200/50 hover:border-primary-300/50 transition-colors">
+								<span class="block text-xs font-semibold text-primary-600 uppercase tracking-wide mb-1">
+									{s.label}
+								</span>
+								<span class="text-sm text-secondary-600 leading-snug">{s.details}</span>
+							</div>
+						))
+					}
+				</div>
+			</section>
+
+			<!-- ── Experience ── -->
+			<section class="reveal space-y-4" style="animation-delay: 450ms">
+				<h2
+					class="flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-secondary-400"
+				>
+					<span class="font-mono text-xs text-primary-500">03.</span>
+					Experience
+					<span class="flex-1 h-px bg-secondary-200 ml-2"></span>
+				</h2>
+				<div
+					class="relative pl-8 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-px before:bg-secondary-200"
+				>
+					{
+						cv.experience.map((exp) => (
+							<div class="relative pb-12 last:pb-0 before:absolute before:left-[-21px] before:top-2 before:w-2.5 before:h-2.5 before:rounded-full before:bg-primary-400 before:ring-4 before:ring-secondary-50">
+								<div class="flex justify-between items-baseline flex-wrap gap-x-4 gap-y-1">
+									<h3 class="text-lg font-semibold text-secondary-900">
+										{exp.company}
+										<span class="font-normal text-secondary-400 text-base"> · {exp.location}</span>
+									</h3>
+									<span class="text-sm text-secondary-400 whitespace-nowrap tabular-nums font-mono">
+										{exp.start} — {exp.end}
+									</span>
+								</div>
+								<p class="text-sm font-semibold text-primary-600 mt-1">{exp.position}</p>
+								<p class="text-sm/relaxed text-secondary-600 mt-1.5">{exp.summary}</p>
+								{exp.highlights.length > 0 && (
+									<ul class="list-disc list-outside pl-5 space-y-1 text-sm/relaxed text-secondary-600 marker:text-primary-400 mt-2">
+										{exp.highlights.map((h) => (
+											<li>{h}</li>
+										))}
+									</ul>
+								)}
+							</div>
+						))
+					}
+				</div>
+			</section>
+
+			<!-- ── Education ── -->
+			<section class="reveal space-y-4" style="animation-delay: 600ms">
+				<h2
+					class="flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-secondary-400"
+				>
+					<span class="font-mono text-xs text-primary-500">04.</span>
+					Education
+					<span class="flex-1 h-px bg-secondary-200 ml-2"></span>
+				</h2>
+				{
+					cv.education.map((edu) => (
+						<p class="text-sm text-secondary-700">
+							<strong class="text-secondary-900">{edu.institution}</strong>
+							<span class="text-secondary-400">
+								{" "}
+								— {edu.degree} in {edu.area}, {edu.location}
+							</span>
+						</p>
+					))
+				}
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

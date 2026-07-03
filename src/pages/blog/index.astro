@@ -1,0 +1,71 @@
+---
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/BaseHead.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+
+const posts = (await getCollection("blog")).sort((a, b) => {
+	const aDate = a.data.updatedDate ?? a.data.pubDate;
+	const bDate = b.data.updatedDate ?? b.data.pubDate;
+	return bDate.valueOf() - aDate.valueOf();
+});
+
+function formatDate(date: Date) {
+	return date.toLocaleDateString("en-us", {
+		year: "numeric",
+		month: "short",
+		day: "numeric",
+	});
+}
+
+function displayDate(post: (typeof posts)[number]) {
+	const updated = post.data.updatedDate;
+	if (updated && updated.valueOf() !== post.data.pubDate.valueOf()) {
+		return `Updated ${formatDate(updated)}`;
+	}
+	return formatDate(post.data.pubDate);
+}
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body class="font-sans">
+		<Header />
+		<main class="max-w-2xl mx-auto px-4 py-12">
+			<header class="mb-12">
+				<h1 class="text-3xl font-bold text-secondary-900">Blog</h1>
+				<p class="mt-2 text-secondary-400">Thoughts on building things, sometimes.</p>
+			</header>
+
+			<section>
+				<ol class="list-none p-0 m-0 border-l border-secondary-200 ml-3">
+					{
+						posts.map((post) => (
+							<li class="relative pl-8 pb-10 last:pb-0">
+								<span class="absolute top-1 left-0 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-primary-400 ring-4 ring-secondary-50" />
+								<a href={`/blog/${post.id}/`} class="block no-underline group">
+									<time class="text-xs text-secondary-400 font-mono tracking-wide uppercase">
+										{displayDate(post)}
+									</time>
+									<h2 class="mt-1 text-lg font-semibold text-secondary-900 group-hover:text-primary-600 transition-colors">
+										{post.data.title}
+									</h2>
+									{post.data.description && (
+										<p class="mt-1 text-sm text-secondary-400 leading-relaxed">
+											{post.data.description}
+										</p>
+									)}
+								</a>
+							</li>
+						))
+					}
+				</ol>
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>
