@@ -1,0 +1,23 @@
+base_url = "https://tomperez98.github.io"
+title = "Tomás Pérez Álvarez"
+description = "Distributed systems, AI engineering, and formal methods — writing about building systems that stay correct when things break."
+
+theme = "zola-pickles"
+compile_sass = true
+generate_feeds = true
+
+taxonomies = [
+  {name = "tags"},
+  {name = "categories"},
+]
+
+[markdown]
+render_emoji = true
+
+[markdown.highlighting]
+theme = "catppuccin-latte"
+
+[extra]
+subtitle = "Distributed Systems · AI Engineering"
+katex_enable = true
+instantpage_enable = true

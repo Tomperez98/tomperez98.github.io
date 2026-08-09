@@ -1,6 +1,0 @@
-dist/
-.astro/
-node_modules/
-.idea/
-bun.lock
-package-lock.json
