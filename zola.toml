@@ -26,8 +26,7 @@ taxonomies = "on"
 anchors = "on"
 
 [extra.devlab.brand]
-logo_text = "Tomas Perez"
-footer_text = "Tomas Perez Alvarez"
+logo_text = "Tomas Perez Alvarez"
 show_logo_mark = false
 
 [extra.devlab.footer]

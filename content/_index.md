@@ -1,6 +1,5 @@
 +++
-title = "Tomas Perez Alvarez"
-description = "Personal blog — thoughts on software and technology."
+description = "Personal blog — thoughts on tech and finance"
 
 [extra]
 home_eyebrow = ""
