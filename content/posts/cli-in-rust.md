@@ -53,4 +53,3 @@ Error messages from the borrow checker are still verbose. For a 200-line tool, I
 
 For a focused CLI, the Rust ecosystem is mature enough that you can go from idea to working binary in a single session. The binary is fast, the help text writes itself, and you never worry about segfaults.
 
-The code is on [GitHub](https://github.com/tomperez98/csv-filter) if you want to take a look.

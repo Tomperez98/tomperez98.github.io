@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - README.md
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - README.md
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Zola
+        uses: taiki-e/install-action@v2
+        with:
+          tool: zola
+
+      - name: Check
+        run: zola check
