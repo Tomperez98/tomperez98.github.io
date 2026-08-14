@@ -1,15 +1,64 @@
-/* Minimalistic overrides — light only */
+/* Arctic white & ink blue — crisp, cool, editorial. Light only. */
 :root,
 :root[data-theme="light"] {
-  --color-bg: #ffffff;
-  --color-surface: #fafafa;
-  --color-fg: #1a1a1a;
-  --color-muted: #8c8c8c;
-  --color-border: #ebebeb;
-  --color-accent: #1a1a1a;
+  color-scheme: light;
+
+  /* Core */
+  --color-bg: #fbfdff;              /* arctic white — crisp, faint cool cast */
+  --color-surface: #f1f4f8;         /* cool light gray — cards, panels, chips */
+  --color-fg: #1a1f2b;              /* cool near-black ink */
+  --color-muted: #5c6a7a;           /* cool slate — meta, captions */
+  --color-border: #e5e9f0;          /* cool hairline */
+  --color-accent: #1e40af;          /* ink blue — links, buttons */
   --color-accent-contrast: #ffffff;
-  --color-code-bg: #f5f5f5;
-  --color-code-fg: #1a1a1a;
-  --color-pre-bg: #f5f5f5;
-  --color-pre-fg: #1a1a1a;
+
+  /* Code */
+  --color-code-bg: #eef2f6;         /* inline code cool gray */
+  --color-code-fg: #1a1f2b;
+  --color-pre-bg: #eef2f6;          /* code block cool gray */
+  --color-pre-fg: #1a1f2b;
+
+  /* Callouts — cool-tinted, still semantic */
+  --color-callout-info-bg: #eef1f6;
+  --color-callout-info-border: #386ea8;
+  --color-callout-info-fg: #203a5c;
+  --color-callout-warning-bg: #fcf3da;
+  --color-callout-warning-border: #b97e00;
+  --color-callout-warning-fg: #5c4500;
+  --color-callout-error-bg: #fbeae6;
+  --color-callout-error-border: #c0452e;
+  --color-callout-error-fg: #5c1f16;
+  --color-callout-tip-bg: #eaf2e4;
+  --color-callout-tip-border: #5f8f4a;
+  --color-callout-tip-fg: #2f4a24;
+}
+
+/* Let the hero name span full width instead of wrapping at 12ch */
+.hero-title {
+  max-width: none;
+}
+
+/* Tag pills shown in post metadata */
+.post-meta-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.post-tag {
+  padding: 0.1rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  text-decoration: none;
+}
+
+.post-tag:hover,
+.post-tag:focus {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
 }

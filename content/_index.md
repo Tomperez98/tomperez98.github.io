@@ -1,8 +1,23 @@
 +++
-description = "Personal blog — thoughts on tech and finance"
+description = "Thoughts on tech, finance or whatever I'm currently learning"
 
 [extra]
-home_eyebrow = ""
+home_eyebrow = "Welcome"
 +++
 
-Welcome. I write about software, technology, and things I'm learning.
+Hi, I'm Tomas
+
+I'm a Colombian, self-taught software engineer, and this is where I share what I'm building, learning, and thinking about.
+
+## 2026
+
+These days I work mostly in **distributed systems and data platforms** — the areas where I feel I can add the most value as an engineer.
+
+The short version of how I got here:
+
+- I finished my finance degree in 2021, into a job market that was, honestly, brutal.
+- The few good offers all asked for `SQL` and `Python`, so I taught myself both.
+- A few months later I landed my first job as a data analyst.
+- Since then I've worked as a Data Engineer, a Backend Software Engineer, and across distributed systems.
+
+I'll be writing blog posts, sharing ideas, and keeping notes on whatever I find interesting. If any of that sounds like your thing, I'd love for you to stick around — and I'm always open to connect.

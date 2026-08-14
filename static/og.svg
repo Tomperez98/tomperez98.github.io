@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#fbfdff"/>
+  <rect x="0" y="0" width="1200" height="12" fill="#1e40af"/>
+  <text x="80" y="270" font-family="Helvetica, Arial, sans-serif" font-size="76" font-weight="700" fill="#1a1f2b">Tomas Perez Alvarez</text>
+  <text x="80" y="345" font-family="Helvetica, Arial, sans-serif" font-size="34" fill="#5c6a7a">Software engineering, distributed systems &amp; data platforms</text>
+  <text x="80" y="565" font-family="Helvetica, Arial, sans-serif" font-size="26" font-weight="600" fill="#1e40af">tomperez98.github.io</text>
+</svg>

@@ -1,20 +1,26 @@
 base_url = "https://tomperez98.github.io"
 title = "Tomas Perez Alvarez"
-description = "Personal blog"
+description = "Notes on software engineering, distributed systems, and data platforms — by Tomas Perez Alvarez."
 default_language = "en"
 theme = "devlab-theme"
 
 compile_sass = true
-build_search_index = false
-generate_feeds = false
+build_search_index = true
+generate_feeds = true
+feed_filenames = ["atom.xml"]
 taxonomies = [{ name = "tags" }]
+
+[search]
+include_title = true
+include_description = true
+include_content = true
 
 [markdown]
 render_emoji = false
 external_links_target_blank = false
 external_links_no_follow = true
 external_links_no_referrer = true
-smart_punctuation = false
+smart_punctuation = true
 
 [markdown.highlighting]
 light_theme = "github-light"
@@ -25,23 +31,34 @@ paths = "on"
 taxonomies = "on"
 anchors = "on"
 
+[extra]
+home_primary_action_label = "Read the posts"
+home_primary_action_path = "/posts/"
+
 [extra.devlab.brand]
 logo_text = "Tomas Perez Alvarez"
 show_logo_mark = false
 
 [extra.devlab.footer]
 note = ""
+links = [
+  { name = "LinkedIn", path = "https://www.linkedin.com/in/tomas-perez-alvarez/", icon = "linkedin" },
+  { name = "GitHub", path = "https://github.com/Tomperez98", icon = "github" },
+]
 
 [extra.devlab.navigation]
 links = [
   { name = "Home", path = "/" },
-  { name = "Posts", path = "/posts/", kind = "blog" },
-  { name = "About", path = "/about/" },
+  { name = "Posts", path = "/posts/", kind = "blog" }
 ]
 
 [extra.devlab.blog]
 path = "/posts/"
+date_format = "%B %e, %Y"
 
 [extra.devlab.appearance]
 default_mode = "light"
 show_toggle = false
+
+[extra.devlab.seo]
+og_image = "og.png"
