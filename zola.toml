@@ -31,16 +31,12 @@ paths = "on"
 taxonomies = "on"
 anchors = "on"
 
-[extra]
-home_primary_action_label = "Read the posts"
-home_primary_action_path = "/posts/"
-
 [extra.devlab.brand]
 logo_text = "Tomas Perez Alvarez"
 show_logo_mark = false
 
 [extra.devlab.footer]
-note = ""
+note = "Personal Blog"
 links = [
   { name = "LinkedIn", path = "https://www.linkedin.com/in/tomas-perez-alvarez/", icon = "linkedin" },
   { name = "GitHub", path = "https://github.com/Tomperez98", icon = "github" },

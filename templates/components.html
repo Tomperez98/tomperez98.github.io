@@ -1,0 +1,6 @@
+{% component timeline_item(year: string) %}
+<section class="timeline-item">
+  <div class="timeline-year">{{ year }}</div>
+  <div class="timeline-body">{{ body | markdown | safe }}</div>
+</section>
+{% endcomponent timeline_item %}
